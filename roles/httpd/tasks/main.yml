@@ -41,6 +41,7 @@
 - name: unarchive httpd
   unarchive:
     src: /tmp/jbcs-httpd24-httpd-2.4.6-RHEL7-x86_64.zip
+    copy: false
     dest: /opt
     owner: apache
     group: apache
