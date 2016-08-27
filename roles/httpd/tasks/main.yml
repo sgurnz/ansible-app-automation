@@ -1,0 +1,66 @@
+---
+# tasks file for roles/httpd
+- name: prereqs
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - apr
+  - apr-util
+  - mailcap
+
+- name: check if installed
+  stat:
+    path: "/opt/jbcs-httpd24-2.4"
+  register: httpd_path
+
+- name: stop apache
+  shell: 
+    cmd: ./apachectl stop
+    chdir: /opt/jbcs-httpd24-2.4/httpd/sbin
+  when: httpd_path.stat.exists
+  ignore_errors: true
+
+- name: add apache group
+  group:
+    name: apache
+    gid: 48
+
+- name: add apache user
+  user: 
+    name: apache
+    uid: 48
+    group: apache
+    shell: /bin/sh
+
+- name: download file
+  get_url:
+    url: http://10.0.0.1:81/jbcs-httpd24-httpd-2.4.6-RHEL7-x86_64.zip  
+    dest: /tmp/jbcs-httpd24-httpd-2.4.6-RHEL7-x86_64.zip
+    
+- name: unarchive httpd
+  unarchive:
+    src: /tmp/jbcs-httpd24-httpd-2.4.6-RHEL7-x86_64.zip
+    dest: /opt
+    owner: apache
+    group: apache
+    
+- name: run post install
+  shell: 
+    cmd: ./.postinstall
+    chdir: /opt/jbcs-httpd24-2.4/httpd
+
+- name: copy mod_cluster.conf
+  copy:
+    src: mod_cluster.conf
+    dest: /opt/jbcs-httpd24-2.4/httpd/conf.d/mod_cluster.conf
+
+- name: copy httpd.conf
+  copy:
+    src: httpd.conf
+    dest: /opt/jbcs-httpd24-2.4/httpd/conf/httpd.conf
+  notify:
+  - start apache
+
+    
+  

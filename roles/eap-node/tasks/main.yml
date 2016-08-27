@@ -1,0 +1,21 @@
+---
+# tasks file for roles/eap-node
+- name: copy host.xml
+  template:
+    src: host.xml.j2
+    dest: "{{ jboss_home }}/domain/configuration/host.xml"
+    
+- name: copy mgmt-users.properties
+  copy:
+    src: mgmt-users.properties
+    dest: "{{ jboss_home }}/domain/configuration/mgmt-users.properties"
+
+- name: copy mgmt-groups.properties
+  copy:
+    src: mgmt-groups.properties
+    dest: "{{ jboss_home }}/domain/configuration/mgmt-groups.properties"    
+    
+- name: start eap
+  shell:
+    cmd: nohup ./domain.sh -b 0.0.0.0 -bmanagement 0.0.0.0 -Djboss.domain.master.address=10.0.0.30 &
+    chdir: "{{ jboss_home }}/bin"

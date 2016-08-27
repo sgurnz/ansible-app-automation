@@ -1,0 +1,11 @@
+---
+# handlers file for roles/httpd
+- name: start apache
+  shell: 
+    cmd: ./apachectl start
+    chdir: /opt/jbcs-httpd24-2.4/httpd/sbin
+    
+- name: stop apache
+  shell: 
+    cmd: ./apachectl stop
+    chdir: /opt/jbcs-httpd24-2.4/httpd/sbin

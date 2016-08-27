@@ -1,0 +1,49 @@
+---
+# tasks file for roles/eap
+- name: check if eap exists
+  stat:
+    path: "{{ jboss_home }}"
+  register: jboss_eap_path
+
+- name: stop eap
+  shell:
+    cmd: "./jboss-cli.sh --connect --controller=localhost:9999 --user=admin --password=passw0rd! --command=/host={{ item }}:shutdown"
+    chdir: "{{ jboss_home }}/bin"
+  when: jboss_eap_path.stat.exists and inventory_hostname in groups['eap-domains']
+  ignore_errors: true
+  register: eap_stop_out
+  changed_when: "'success' in eap_stop_out.stdout"
+  with_items:
+  - eap1
+#  - eap2
+  - master
+  
+    
+- name: create folder
+  file:
+    path: /opt/jboss
+    state: directory
+    
+- name: grab eap 
+  get_url: 
+    url: http://10.0.0.1:81/jboss-eap-7.0.0.zip
+    dest: "{{ temp_path }}/jboss-eap-7.0.0.zip"
+
+- name: unarchive
+  unarchive:
+    src: "{{ temp_path }}/jboss-eap-7.0.0.zip"
+    copy: false
+    dest: /opt/jboss
+  when: not jboss_eap_path.stat.exists
+
+- name: grab patch
+  get_url:
+    url: http://10.0.0.1:81/jboss-eap-7.0.1-patch.zip
+    dest: "{{ temp_path }}/jboss-eap-7.0.1-patch.zip"
+    
+- name: patch
+  shell:
+    chdir: "{{ jboss_home }}/bin"
+    cmd: ./jboss-cli.sh 'patch apply --override-all {{ temp_path }}/jboss-eap-7.0.1-patch.zip'
+  when: not jboss_eap_path.stat.exists
+     
