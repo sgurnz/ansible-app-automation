@@ -1489,7 +1489,7 @@
                 <remote-destination host="localhost" port="25"/>
             </outbound-socket-binding>
             <outbound-socket-binding name="proxy1">
-                <remote-destination host="10.0.0.20" port="6666"/>
+                <remote-destination host="10.0.0.20" port="8888"/>
             </outbound-socket-binding>            
         </socket-binding-group>
     </socket-binding-groups>

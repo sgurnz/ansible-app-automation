@@ -4,8 +4,6 @@
   remote_user: user
   vars:
     temp_path: /tmp
-    jboss_home: /opt/jboss/jboss-eap-7.0
-    httpd_home: //
   roles:
   - app-deploy
   

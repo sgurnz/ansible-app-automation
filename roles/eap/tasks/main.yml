@@ -7,43 +7,40 @@
 
 - name: stop eap
   shell:
-    cmd: "./jboss-cli.sh --connect --controller=localhost:9999 --user=admin --password=passw0rd! --command=/host={{ item }}:shutdown"
+    cmd: "./jboss-cli.sh --connect --controller=localhost:9999 --user={{ eap_admin_user }} --password={{ eap_admin_password }} --command=/host={{ item }}:shutdown"
     chdir: "{{ jboss_home }}/bin"
   when: jboss_eap_path.stat.exists and inventory_hostname in groups['eap-domains']
   ignore_errors: true
   register: eap_stop_out
   changed_when: "'success' in eap_stop_out.stdout"
   with_items:
-  - eap1
-#  - eap2
-  - master
+  - "{{ eap_servers }}"
   
-    
 - name: create folder
   file:
-    path: /opt/jboss
+    path: "{{ eap_pre_path }}"
     state: directory
     
 - name: grab eap 
   get_url: 
-    url: http://10.0.0.1:81/jboss-eap-7.0.0.zip
-    dest: "{{ temp_path }}/jboss-eap-7.0.0.zip"
+    url: "{{ binary_location }}/{{ eap_binary }}"
+    dest: "{{ temp_path }}/{{ eap_binary }}"
 
 - name: unarchive
   unarchive:
-    src: "{{ temp_path }}/jboss-eap-7.0.0.zip"
+    src: "{{ temp_path }}/{{ eap_binary }}"
     copy: false
-    dest: /opt/jboss
+    dest: "{{ eap_pre_path }}"
   when: not jboss_eap_path.stat.exists
 
 - name: grab patch
   get_url:
-    url: http://10.0.0.1:81/jboss-eap-7.0.1-patch.zip
-    dest: "{{ temp_path }}/jboss-eap-7.0.1-patch.zip"
+    url: "{{ binary_location }}/{{ eap_patch_binary }}"
+    dest: "{{ temp_path }}/{{ eap_patch_binary }}"
     
 - name: patch
   shell:
     chdir: "{{ jboss_home }}/bin"
-    cmd: ./jboss-cli.sh 'patch apply --override-all {{ temp_path }}/jboss-eap-7.0.1-patch.zip'
+    cmd: ./jboss-cli.sh 'patch apply --override-all {{ temp_path }}/{{ eap_patch_binary }}'
   when: not jboss_eap_path.stat.exists
      

@@ -1,20 +1,28 @@
 ---
 # tasks file for roles/app-deploy
+- name: undeploy app
+  command:
+    cmd: ./jboss-cli.sh --connect --controller=localhost:9999 --user={{ eap_admin_user }} --password={{ eap_admin_password }} 'undeploy jboss-kitchensink.war --all-relevant-server-groups'
+    chdir: "{{ jboss_home }}/bin"
+  register: undeploy_app_out
+  until: undeploy_app_out.changed
+  ignore_errors: true
+  retries: 5
+  delay: 10
+
 - name: get kitchensink app
   get_url:
-    url: http://10.0.0.1:81/jboss-kitchensink.war
+    url: "{{ binary_location }}/jboss-kitchensink.war"
     dest: "{{ temp_path }}/jboss-kitchensink.war"
 
 #undeploy --all-relevant-server-groups jboss-kitchensink.war
     
 - name: deploy app
   command:
-    cmd: ./jboss-cli.sh --connect --controller=localhost:9999 --user=admin --password=passw0rd! 'deploy {{ temp_path }}/jboss-kitchensink.war --server-groups=main-server-group'
+    cmd: ./jboss-cli.sh --connect --controller=localhost:9999 --user={{ eap_admin_user }} --password={{ eap_admin_password }} 'deploy {{ temp_path }}/jboss-kitchensink.war --server-groups=main-server-group'
     chdir: "{{ jboss_home }}/bin"
   register: deploy_app_out
   until: deploy_app_out.changed
+  ignore_errors: true
   retries: 5
   delay: 10
-#- name: deploy app
-#  shell: >
-#    curl --digest -L -D - http://10.0.0.30:9990/management --header "Content-Type: application/json" -d '{"operation" : "composite", "address" : [], "steps" : [{"operation" : "add", "address" : {"deployment" : "jboss-kitchensink.war"}, "content" : [{"url" : "http://10.0.0.1:81/jboss-kitchensink.war"}]},{"operation" : "deploy", "address" : {"deployment" : "jboss-kitchensink.war"}}],"json.pretty":1}' -u admin:passw0rd!

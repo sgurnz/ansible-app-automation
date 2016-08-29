@@ -1,11 +1,17 @@
 ---
+- hosts: webservers
+  become: true
+  remote_user: user
+  vars:
+    temp_path: /tmp
+  roles:
+  - httpd
+
 - hosts: eap
   become: true
   remote_user: user
   vars:
     temp_path: /tmp
-    jboss_home: /opt/jboss/jboss-eap-7.0
-    httpd_home: //
   roles:
   - eap
   
@@ -14,8 +20,6 @@
   remote_user: user
   vars:
     temp_path: /tmp
-    jboss_home: /opt/jboss/jboss-eap-7.0
-    httpd_home: //
   roles:
   - eap-domain
   
@@ -24,7 +28,6 @@
   remote_user: user
   vars:
     temp_path: /tmp
-    jboss_home: /opt/jboss/jboss-eap-7.0
-    httpd_home: //
   roles:
   - eap-node
+  
