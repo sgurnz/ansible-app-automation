@@ -2,7 +2,7 @@
 eap_admin_user: admin
 eap_admin_password: passw0rd!
 eap_pre_path: /opt/jboss
-binary_location: http://10.0.0.10:81
+binary_location: http://10.0.0.11
 jboss_home: "{{ eap_pre_path }}/jboss-eap-7.0"
 eap_binary: jboss-eap-7.0.0.zip
 eap_patch_binary: jboss-eap-7.0.1-patch.zip
