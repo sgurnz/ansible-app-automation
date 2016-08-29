@@ -2,7 +2,7 @@
 # tasks file for roles/app-deploy
 - name: undeploy app
   command:
-    cmd: ./jboss-cli.sh --connect --controller=localhost:9999 --user={{ eap_admin_user }} --password={{ eap_admin_password }} 'undeploy jboss-kitchensink.war --all-relevant-server-groups'
+    cmd: ./jboss-cli.sh --connect --controller=localhost:9999 --user={{ eap_admin_user }} --password={{ eap_admin_password }} 'undeploy {{ eap_app_binary }} --all-relevant-server-groups'
     chdir: "{{ jboss_home }}/bin"
   register: undeploy_app_out
   until: undeploy_app_out.changed
@@ -10,16 +10,14 @@
   retries: 5
   delay: 10
 
-- name: get kitchensink app
+- name: get {{ eap_app_binary }} app
   get_url:
-    url: "{{ binary_location }}/jboss-kitchensink.war"
-    dest: "{{ temp_path }}/jboss-kitchensink.war"
-
-#undeploy --all-relevant-server-groups jboss-kitchensink.war
+    url: "{{ binary_location }}/{{ eap_app_binary }}"
+    dest: "{{ temp_path }}/{{ eap_app_binary }}"
     
 - name: deploy app
   command:
-    cmd: ./jboss-cli.sh --connect --controller=localhost:9999 --user={{ eap_admin_user }} --password={{ eap_admin_password }} 'deploy {{ temp_path }}/jboss-kitchensink.war --server-groups=main-server-group'
+    cmd: ./jboss-cli.sh --connect --controller=localhost:9999 --user={{ eap_admin_user }} --password={{ eap_admin_password }} 'deploy {{ temp_path }}/{{ eap_app_binary }} --server-groups=main-server-group'
     chdir: "{{ jboss_home }}/bin"
   register: deploy_app_out
   until: deploy_app_out.changed

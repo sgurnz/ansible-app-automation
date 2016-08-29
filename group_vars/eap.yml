@@ -10,3 +10,4 @@ eap_servers:
   - eap1
 #  - eap2
   - master
+eap_app_binary: jboss-kitchensink.war
