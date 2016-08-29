@@ -1,12 +1,12 @@
 [webservers]
-104.155.156.13
+10.0.0.20
 
 [eap-domains]
-104.197.247.2 eap_node_name=master
+10.0.0.30 eap_node_name=master
 
 [eap-nodes]
-104.155.185.207 eap_node_name=eap1
-#104.197.120.17 eap_node_name=eap2
+10.0.0.40 eap_node_name=eap1
+#10.0.0.41 eap_node_name=eap2
 
 [eap:children]
 eap-domains
