@@ -4,7 +4,7 @@
   stat:
     path: "{{ jboss_home }}"
   register: jboss_eap_path
-
+ 
 - name: stop eap
   shell:
     cmd: "./jboss-cli.sh --connect --controller=localhost:9999 --user={{ eap_admin_user }} --password={{ eap_admin_password }} --command=/host={{ item }}:shutdown"
@@ -15,10 +15,29 @@
   changed_when: "'success' in eap_stop_out.stdout"
   with_items:
   - "{{ eap_servers }}"
-  
+
+- name: Create JBoss EAP Group
+  group:
+    name: "{{ jboss_group }}"
+    system: yes
+    state: present
+    gid: "400"
+
+- name: Create JBoss EAP User
+  user:
+    name: "{{ jboss_user }}"
+    comment: "JBoss EAP User"
+    uid: "400"
+    group: "{{ jboss_group }}"
+    home: "{{ eap_pre_path }}"
+    shell: "/bin/bash"
+    
 - name: create folder
   file:
     path: "{{ eap_pre_path }}"
+    owner: "{{ jboss_user }}"
+    group: "{{ jboss_group }}"
+    mode: "755"
     state: directory
     
 - name: grab eap 
@@ -31,6 +50,8 @@
     src: "{{ temp_path }}/{{ eap_binary }}"
     copy: false
     dest: "{{ eap_pre_path }}"
+    owner: "{{ jboss_user }}"
+    group: "{{ jboss_group }}"
   when: not jboss_eap_path.stat.exists
 
 - name: grab patch

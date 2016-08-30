@@ -19,3 +19,4 @@
   shell:
     cmd: nohup ./domain.sh -b 0.0.0.0 -bmanagement 0.0.0.0 -Djboss.domain.master.address=10.0.0.30 &
     chdir: "{{ jboss_home }}/bin"
+  become_user: "{{ jboss_user }}"

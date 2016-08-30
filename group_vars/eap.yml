@@ -1,4 +1,6 @@
 ---
+jboss_user: jboss
+jboss_group: jboss
 eap_admin_user: admin
 eap_admin_password: passw0rd!
 eap_pre_path: /opt/jboss
