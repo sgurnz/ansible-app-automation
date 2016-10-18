@@ -16,24 +16,23 @@ Browse Inventories
 Setup Infrastructure and Deploy App
 * Job Templates: eap domain - setup infrastructure
   * Start job (rocket)
-* watch job - wait until the job status is: Successful
+  * watch job - wait until the job status is: Successful
 
-Web Browser: Test Web Server and EAP domain
-* http://web1-GUID.rhpds.opentlc.com:8888/mod_cluster_mananger
-  * Should see Node eap1
-* http://eapd-GUID.rhpds.opentlc.com:9990
+* Web Browser: Test Web Server and EAP domain
+  * http://web1-GUID.rhpds.opentlc.com:8888/mod_cluster_manager
+    * Should see Node eap1
+  * http://eapd-GUID.rhpds.opentlc.com:9990
 
-Job Templates: eap domain - deploy app
-* Start job (rocket)
-* Watch job - wait until the job status is: Successful
+* Job Templates: eap domain - deploy app
+  * Start job (rocket)
+  * Watch job - wait until the job status is: Successful
 
-Web Browser: Test Web Server and EAP domain
-* http://web1-GUID.rhpds.opentlc.com:8888/mod_cluster_mananger
-  * Should see Node eap1 and associated jboss-kitchensink context
-* http://web1-GUID.rhpds.opentlc.com/jboss-kitchensink
+* Web Browser: Test Web Server and EAP domain
+  * http://web1-GUID.rhpds.opentlc.com:8888/mod_cluster_manager
+    * Should see Node eap1 and associated jboss-kitchensink context
+  * http://web1-GUID.rhpds.opentlc.com/jboss-kitchensink
 
-Need additional node for testing
-Add additional node to inventory
+Need additional node for testing - Add additional node to inventory
 * Browse to Inventories
   * ansible app > eap > eap-nodes
   * + Add Host
@@ -52,21 +51,21 @@ Job Templates: eap domain - setup infrastructure
 * start job (rocket)
 
 Web Browser: Test Web Server and EAP domain
-* http://web1-GUID.rhpds.opentlc.com:8888/mod_cluster_mananger
+* http://web1-GUID.rhpds.opentlc.com:8888/mod_cluster_manager
     * Should see Node eap1 and eap2
     
 Job Templates: eap domain - deploy app
 * start job (rocket)
 
 Web Browser: Test Web Server and EAP domain
-* http://web1-GUID.rhpds.opentlc.com:8888/mod_cluster_mananger
+* http://web1-GUID.rhpds.opentlc.com:8888/mod_cluster_manager
   * Should see Node eap1, eap2 and associated jboss-kitchensink context
 * http://web1-GUID.rhpds.opentlc.com/jboss-kitchensink
 
 ## Additional deployment methods (bonus labs)
 Pre-requisites
 * Red Hat Customer Support Portal credentials
-* Red Hat Subscription - like JBoss NFR 
+* Red Hat Subscription - like JBoss NFR
 * Jobs do require more time as the binaries will directly be downloaded from Red Hat Customer Support Portal
 
 Deploy Standalone EAP - ~16 min
@@ -76,9 +75,8 @@ Deploy Standalone EAP - ~16 min
     * RHCSP username
     * RHCSP password
   * Launch
-
-Web Browser:
-* http://eaps-GUID.rhpds.opentlc.com:8080/jboss-kitchensink
+* Web Browser:
+  * http://eaps-GUID.rhpds.opentlc.com:8080/jboss-kitchensink
 
 Deploy Standalone BPM Suite - ~
 * Job Templates: middleware ansible - bpms
