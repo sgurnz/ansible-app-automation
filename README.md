@@ -70,10 +70,10 @@ Pre-requisites
 
 Deploy Standalone EAP - ~16 min
 * Job Templates: middleware ansible - eap
-  * Start job
-  * Survey
+  * Edit Extra variables (Enterprise Ansible Tower license, one would use survey function to prompt for credentials)
     * RHCSP username
     * RHCSP password
+  * Save
   * Launch
 * Web Browser:
   * http://eaps-GUID.rhpds.opentlc.com:8080/jboss-kitchensink
