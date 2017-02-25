@@ -1,4 +1,4 @@
 httpd_pre_path: /opt
 jboss_httpd_home: "{{ httpd_pre_path }}/jbcs-httpd24-2.4/httpd"
-binary_location: http://10.0.0.11
+binary_location: http://tower/files
 jboss_httpd_binary: jbcs-httpd24-httpd-2.4.6-RHEL7-x86_64.zip
