@@ -10,6 +10,6 @@ eap_binary: jboss-eap-7.0.0.zip
 eap_patch_binary: jboss-eap-7.0.5-patch.zip
 eap_servers:
   - eap1
-#  - eap2
+  - eap2
   - master
 eap_app_binary: jboss-kitchensink.war
