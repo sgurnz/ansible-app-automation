@@ -1,5 +1,6 @@
 ---
-- hosts: webservers
+- name: Installing frontend webserver with mod_cluster
+  hosts: webservers
   become: true
   remote_user: user
   vars:
@@ -7,7 +8,8 @@
   roles:
   - httpd
 
-- hosts: eap
+- name: Installing Jboss EAP
+  hosts: eap
   become: true
   remote_user: user
   vars:
@@ -15,7 +17,8 @@
   roles:
   - eap
   
-- hosts: eap-domains
+- name: Configure EAP domain
+  hosts: eap-domains
   become: true
   remote_user: user
   vars:
@@ -23,7 +26,8 @@
   roles:
   - eap-domain
   
-- hosts: eap-nodes
+- name: Configuring EAP nodes
+  hosts: eap-nodes
   become: true
   remote_user: user
   vars:

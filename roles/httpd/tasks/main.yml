@@ -1,6 +1,6 @@
 ---
 # tasks file for roles/httpd
-- name: prereqs
+- name: Ensure prereqs are ok
   yum:
     name: "{{ item }}"
     state: latest
